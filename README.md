@@ -6,4 +6,4 @@ Made by Arseny Kurin (arsikurin) and Antoshin Igor (Yabich)
 (c) Antoshin Igor
 
 
-- API & (Telegram bot)[https://github.com/arsikurin/letovoAnalytics]
+- API & [Telegram bot](https://github.com/arsikurin/letovoAnalytics)
