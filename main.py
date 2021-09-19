@@ -3,6 +3,8 @@ import os
 
 
 class Myclient (discord.Client):
+    emoji = '\N{THUMBS UP SIGN}'
+
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
 
@@ -20,8 +22,10 @@ class Myclient (discord.Client):
             elif message.content == '!grades':
                 await message.channel.send('What subject do you need grades for?')
 
+
             else:
-                await message.channel.send('I dont have this command, sadly consider writing !help to see all commands')
+                await message.channel.send('Sorry, I dont have this command, sadly consider writing !help to see all '
+                                           'commands')
 
 
 client = Myclient()
