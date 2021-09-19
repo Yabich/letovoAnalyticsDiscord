@@ -9,22 +9,23 @@ class Myclient (discord.Client):
         print('Logged on as {0}!'.format(self.user))
 
     async def on_message(self, message):
-        if message.content.startswith('!'):
-            if message.content == '!login':
-                await message.channel.send('https://letovo.cf')
-            elif message.content == '!schedule':
-                await message.channel.send('What schedule do you want? 1 - Entire schedule 2 - Today\'s schedule 3 - '
+        channelid = message.channel.id
+        channel = client.get_channel(channelid)
+        if message.content.startswith('/'):
+            if message.content == '/login':
+                await channel.send('https://letovo.cf')
+            elif message.content == '/schedule':
+                await channel.send('What schedule do you want? 1 - Entire schedule 2 - Today\'s schedule 3 - '
                                            'Specific day schedule')
-            elif message.content == '!homework':
-                await message.channel.send('Your whole homework for the next week:')
-            elif message.content == '!help':
-                await message.channel.send('My commands: !login, !schedule, !homework, !grades')
-            elif message.content == '!grades':
-                await message.channel.send('What subject do you need grades for?')
-
-
+                await message.add_reaction('1️⃣')
+            elif message.content == '/homework':
+                await channel.send('Your whole homework for the next week:')
+            elif message.content == '/help':
+                await channel.send('My commands: !login, !schedule, !homework, !grades')
+            elif message.content == '/grades':
+                await channel.send('What subject do you need grades for?')
             else:
-                await message.channel.send('Sorry, I dont have this command, sadly consider writing !help to see all '
+                await channel.send('Sorry, I dont have this command sadly, consider writing !help to see all '
                                            'commands')
 
 
