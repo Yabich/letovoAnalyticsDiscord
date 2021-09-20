@@ -12,12 +12,17 @@ class Myclient (discord.Client):
         channelid = message.channel.id
         channel = client.get_channel(channelid)
         if message.content.startswith('/'):
+            print(f'Last message in {channel.name} sent by {message.author.name}: '
+            + message.content)
             if message.content == '/login':
                 await channel.send('https://letovo.cf')
             elif message.content == '/schedule':
-                await channel.send('What schedule do you want? 1 - Entire schedule 2 - Today\'s schedule 3 - '
+                await channel.send('What schedule do you want? Choose in reactions 1️⃣ - Entire schedule 2️- Today\'s schedule 3️- '
                                            'Specific day schedule')
+                message = await channel.fetch_message(channel.last_message_id)
                 await message.add_reaction('1️⃣')
+                await message.add_reaction('2️⃣')
+                await message.add_reaction('3️⃣')
             elif message.content == '/homework':
                 await channel.send('Your whole homework for the next week:')
             elif message.content == '/help':
