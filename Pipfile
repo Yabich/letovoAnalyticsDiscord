@@ -4,7 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"discord.py" = "*"
+'discord.py' = "*"
+pyyaml = "*"
+firebase-admin = "*"
+ics = "*"
+colourlib = "*"
+requests-futures = "*"
+telethon = "*"
+
 
 [dev-packages]
 
