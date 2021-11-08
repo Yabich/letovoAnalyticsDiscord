@@ -202,6 +202,8 @@ class Myclient(discord.Client):
             await my_message.add_reaction('🏡')
             await my_message.add_reaction('🔢')
             await my_message.add_reaction('🌲')
+        else:
+
 
 
 if __name__ == "__main__":
