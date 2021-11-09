@@ -4,7 +4,7 @@ import os
 
 class Myclient(discord.Client):
     curusers = {}
-    logged_on = [469107885536706560]
+    logged_on = [469107885536706560, 525400773375426590]
     message = ''
     channel = ''
 
@@ -32,104 +32,106 @@ class Myclient(discord.Client):
     async def on_raw_reaction_add(self, payload):
         user = await self.fetch_user(payload.user_id)
         reaction = str(payload.emoji)
+        message = payload.message_id
         if user != client.user:
             if user.id in self.curusers:
-                if self.curusers[user.id][0] == "Menu":
-                    if reaction == '🗓️':
-                        self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                    elif reaction == '🏡':
-                        self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                    elif reaction == '🔢':
-                        self.curusers[user.id] = 'Grades', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                    elif reaction == '🌲':
-                        self.curusers[user.id] = 'Holidays', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                elif self.curusers[user.id][0] == 'Schedule_menu':
-                    if reaction == '🗓️':
-                        await self.curusers[user.id][1].send('Расписание на сегодня')
-                        del (self.curusers[user.id])
-                    elif reaction == '🏡':
-                        await self.curusers[user.id][1].send('Расписание на неделю')
-                        del (self.curusers[user.id])
-                    elif reaction == '🔢':
-                        self.curusers[user.id] = 'Schedule_choice', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                    elif reaction == '⬅️':
-                        self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                elif self.curusers[user.id][0] == 'Schedule_choice':
-                    if reaction == '1️⃣':
-                        await self.curusers[user.id][1].send('Понедельник расписание')
-                        del (self.curusers[user.id])
-                    elif reaction == '2️⃣':
-                        await self.curusers[user.id][1].send('Вторник расписание')
-                        del (self.curusers[user.id])
-                    elif reaction == '3️⃣':
-                        await self.curusers[user.id][1].send('Среда расписание')
-                        del (self.curusers[user.id])
-                    elif reaction == '4️⃣':
-                        await self.curusers[user.id][1].send('Четверг расписание')
-                        del (self.curusers[user.id])
-                    elif reaction == '5️⃣':
-                        await self.curusers[user.id][1].send('Пятница расписание')
-                        del (self.curusers[user.id])
-                    elif reaction == '5️⃣':
-                        await self.curusers[user.id][1].send('Суббота расписание')
-                        del (self.curusers[user.id])
-                    elif reaction == '⬅️':
-                        self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                elif self.curusers[user.id][0] == 'Homework_menu':
-                    if reaction == '🏚️':
-                        await self.curusers[user.id][1].send('ДЗ на завтра')
-                        del (self.curusers[user.id])
-                    elif reaction == '🏘️':
-                        await self.curusers[user.id][1].send('ДЗ на неделю')
-                        del (self.curusers[user.id])
-                    elif reaction == '🔢':
-                        self.curusers[user.id] = 'Homework_choice', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                    elif reaction == '⬅️':
-                        self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                elif self.curusers[user.id][0] == 'Homework_choice':
-                    if reaction == '1️⃣':
-                        await self.curusers[user.id][1].send('Понедельник ДЗ')
-                        del (self.curusers[user.id])
-                    elif reaction == '2️⃣':
-                        await self.curusers[user.id][1].send('Вторник ДЗ')
-                        del (self.curusers[user.id])
-                    elif reaction == '3️⃣':
-                        await self.curusers[user.id][1].send('Среда ДЗ')
-                        del (self.curusers[user.id])
-                    elif reaction == '4️⃣':
-                        await self.curusers[user.id][1].send('Четверг ДЗ')
-                        del (self.curusers[user.id])
-                    elif reaction == '5️⃣':
-                        await self.curusers[user.id][1].send('Пятница ДЗ')
-                        del (self.curusers[user.id])
-                    elif reaction == '5️⃣':
-                        await self.curusers[user.id][1].send('Суббота ДЗ')
-                        del (self.curusers[user.id])
-                    elif reaction == '⬅️':
-                        self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
-                elif self.curusers[user.id][0] == ' ':
-                    if reaction == '🔄':
-                        await self.curusers[user.id][1].send('Все оценки')
-                        del (self.curusers[user.id])
-                    elif reaction == '‼️':
-                        await self.curusers[user.id][1].send('Оценки самматив')
-                        del (self.curusers[user.id])
-                    elif reaction == '📅':
-                        await self.curusers[user.id][1].send('Оценки недавно')
-                        del (self.curusers[user.id])
-                    elif reaction == '⬅️':
-                        self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
-                        await self.status_change(user.id)
+                if self.curusers[user.id][2].id == message:
+                    if self.curusers[user.id][0] == "Menu":
+                        if reaction == '🗓️':
+                            self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                        elif reaction == '🏡':
+                            self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                        elif reaction == '🔢':
+                            self.curusers[user.id] = 'Grades', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                        elif reaction == '🌲':
+                            self.curusers[user.id] = 'Holidays', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                    elif self.curusers[user.id][0] == 'Schedule_menu':
+                        if reaction == '🗓️':
+                            await self.curusers[user.id][1].send('Расписание на сегодня')
+                            del (self.curusers[user.id])
+                        elif reaction == '🏡':
+                            await self.curusers[user.id][1].send('Расписание на неделю')
+                            del (self.curusers[user.id])
+                        elif reaction == '🔢':
+                            self.curusers[user.id] = 'Schedule_choice', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                        elif reaction == '⬅️':
+                            self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                    elif self.curusers[user.id][0] == 'Schedule_choice':
+                        if reaction == '1️⃣':
+                            await self.curusers[user.id][1].send('Понедельник расписание')
+                            del (self.curusers[user.id])
+                        elif reaction == '2️⃣':
+                            await self.curusers[user.id][1].send('Вторник расписание')
+                            del (self.curusers[user.id])
+                        elif reaction == '3️⃣':
+                            await self.curusers[user.id][1].send('Среда расписание')
+                            del (self.curusers[user.id])
+                        elif reaction == '4️⃣':
+                            await self.curusers[user.id][1].send('Четверг расписание')
+                            del (self.curusers[user.id])
+                        elif reaction == '5️⃣':
+                            await self.curusers[user.id][1].send('Пятница расписание')
+                            del (self.curusers[user.id])
+                        elif reaction == '5️⃣':
+                            await self.curusers[user.id][1].send('Суббота расписание')
+                            del (self.curusers[user.id])
+                        elif reaction == '⬅️':
+                            self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                    elif self.curusers[user.id][0] == 'Homework_menu':
+                        if reaction == '🏚️':
+                            await self.curusers[user.id][1].send('ДЗ на завтра')
+                            del (self.curusers[user.id])
+                        elif reaction == '🏘️':
+                            await self.curusers[user.id][1].send('ДЗ на неделю')
+                            del (self.curusers[user.id])
+                        elif reaction == '🔢':
+                            self.curusers[user.id] = 'Homework_choice', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                        elif reaction == '⬅️':
+                            self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                    elif self.curusers[user.id][0] == 'Homework_choice':
+                        if reaction == '1️⃣':
+                            await self.curusers[user.id][1].send('Понедельник ДЗ')
+                            del (self.curusers[user.id])
+                        elif reaction == '2️⃣':
+                            await self.curusers[user.id][1].send('Вторник ДЗ')
+                            del (self.curusers[user.id])
+                        elif reaction == '3️⃣':
+                            await self.curusers[user.id][1].send('Среда ДЗ')
+                            del (self.curusers[user.id])
+                        elif reaction == '4️⃣':
+                            await self.curusers[user.id][1].send('Четверг ДЗ')
+                            del (self.curusers[user.id])
+                        elif reaction == '5️⃣':
+                            await self.curusers[user.id][1].send('Пятница ДЗ')
+                            del (self.curusers[user.id])
+                        elif reaction == '5️⃣':
+                            await self.curusers[user.id][1].send('Суббота ДЗ')
+                            del (self.curusers[user.id])
+                        elif reaction == '⬅️':
+                            self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
+                    elif self.curusers[user.id][0] == ' ':
+                        if reaction == '🔄':
+                            await self.curusers[user.id][1].send('Все оценки')
+                            del (self.curusers[user.id])
+                        elif reaction == '‼️':
+                            await self.curusers[user.id][1].send('Оценки самматив')
+                            del (self.curusers[user.id])
+                        elif reaction == '📅':
+                            await self.curusers[user.id][1].send('Оценки недавно')
+                            del (self.curusers[user.id])
+                        elif reaction == '⬅️':
+                            self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            await self.status_change(user.id)
 
     async def status_change(self, user):
         await self.curusers[user][2].delete()
