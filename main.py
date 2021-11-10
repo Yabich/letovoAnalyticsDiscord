@@ -206,4 +206,4 @@ class Myclient(discord.Client):
 
 if __name__ == "__main__":
     client = Myclient()
-    client.run(os.getenv('TOKEN'))
+    client.run(os.getenv('TOKEN'))#env
