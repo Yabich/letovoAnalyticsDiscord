@@ -4,16 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-'discord.py' = "*"
+httpx = "*"
+discord = {py = "*"}
 pyyaml = "*"
 firebase-admin = "*"
 ics = "*"
 colourlib = "*"
-requests-futures = "*"
-telethon = "*"
-
+pydantic = "*"
+aiohttp = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "letovo-analitics-discord",
+  "private_key_id": "1279c6b2ad66dd253e0ea78cfb68dc5c82d6822f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/nW6UfyRhdRQR\nutLFNanPW8wlhN1RH7r0P8IxryTx/0s9MFAw4NrhkbxfqoYu7417K4t94YZd9KPt\nepVCaOHECYMpHughMO4pn5t0tCHzyy3yLMzGSCzSiMZLKiYr3c67Il7UcOO56GMv\n8x4WLSD+I2brhs8gTp97lADKZuKK+mUMIq5FPJsu2T+7sTOncqGNYGJZKsKnN86I\nAgeVHV4m3nHGKbio3Nh7oZpcAYusafvFgmIe9kaO4EWJFoVdV6T7fboD+CW+3rbK\nXHk20DBbgTe7zWe7s+9Gn24VfERJQmIemo/l8rE8272oYdY6PnKJxqr4M1kx8ge3\nqTA6+7XpAgMBAAECggEAFhuqegyvXGU/Qwpsrh9Sb9/WDpAlXupLzkma9NOR7i/3\n9N/hqLoQ1wzTELCimcC+8LKl/giq0aVb0pcdqJNkVROJ5BEyVD4KhJfrPkxYTIIp\nU3NSzx/duA7a3ipHTDFj3FiLW3SI+daztwEUfBeJ4nigM9WSiVY49W+upau4QLOO\n9QH0oAyac7P5zLUD72lUM82urfyR9pjy8o80mJXSwXUVpEyeufDUtdXu4hooACgZ\nZXk+r2TMt/yPJNP+texlNuRDK7APFNqLcz8VBqOQbV2xyUUxpQ811SxfCk+z1ph7\nRI0PjHh9oCyk1lu3SBOqBa89jFi0BykXixQ52096hwKBgQDwQEQGpjuY+sxwffii\nMptyFlKl0i90mPbOg10+jzMsavy3vZ3SXm80uefFV414SkHMGl/z8yLnCYa2yJCG\nfLRp/QdRUvUzQZ+c8mDEqUGUlzYYxOrOZ1t036Zt1L/fgIFbDje8au12cd5Q1JXT\nZhJPFzt9VrFSXoa8VcdZff3kkwKBgQDMLPziKFCjIEfe6PyDBPjrNRtL1TJjzWOq\ns5ItH+bdaCDL6cNFDQMXMvfqg7uO/zopa24gWWEJ34g01ce1T9DyqyCiJXNSeSD1\nhgjMWJY08wbyg1YVa0VWHOOy0ZRSBJ31K4+heX7et3rcMhVSJJCNGW0w7csTGmkW\nQccg+4ulEwKBgDoBWis80WDTFK8ISxJmI4+9AgFVKO3+zH/5yXaEPne38QIvvr3+\n3NyfEe1cgSSM0SwFJiuRBVlAvIy/Cd3el/SLCcxBuj/A1VegUWrJ7rKAe6gpSwPA\ngp1KLjWQSy8cKJ8iZKSSMHkLbwCXAwGCQGNmGY/ecXuQpPktwK7Ds5wPAoGBAKao\nGgqoCZn9YWzMFEEFsACdKpitfyIDplTRmoGGxrT2p76KIr+cLWekTMR5noDMR7dD\nX3K8Qf8DHHS0Av02F0Hc+RghJY6uHH8MVuYlcQXrUUJmfb+h/ciacCmn9D82UZCr\na+PL/gjhD0HpB4ozGmJx3LTRhK8lIZ3vNxDvAj9NAoGBAM5LktShE8vsOGScfY32\ng/05Eje30qRkmg7Ei5/dym2mwIGhbfRGbGQys0HLFCdAjgfKHGa3MSL5L8aJxaM6\n6Acfjfd2VFZiSwtxqcFCMOspmvLKTT3VqT3+0OxkcujFLhhtaQGIJrKJUk29zD1Y\nCFl77SZA7Xp07A8g8ZI3hG0r\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-3gtun@letovo-analitics-discord.iam.gserviceaccount.com",
+  "client_id": "114405662715756309772",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3gtun%40letovo-analitics-discord.iam.gserviceaccount.com"
+}
