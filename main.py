@@ -1,10 +1,10 @@
+import asyncio
 import os
 from datetime import datetime
-
+import aiohttp
 import discord
 
 from information import variables
-from information.marks import MarksResponse
 from utils.api import API
 
 
@@ -27,11 +27,10 @@ class Client(discord.Client):
                 if message.author.id not in self.logged_on:
                     await self.channel.send('You aren\'t logged on. Consider typing /login')
                 my_message = await message.channel.send(
-                    'Greetings, ' + message.author.name + '. Choose an option below. :calendar_spiral: for Schedule, 🏡 for Homework, 🔢 for grades and 🌲 for holidays')
+                    'Greetings, ' + message.author.name + '. Choose an option below. :calendar_spiral: for Schedule, 🏡 for Homework, 🔢 for grades')
                 await my_message.add_reaction('🗓️')
                 await my_message.add_reaction('🏡')
                 await my_message.add_reaction('🔢')
-                await my_message.add_reaction('🌲')
                 self.curusers[message.author.id] = 'Menu', self.channel, my_message
             print('Last message in', message.channel, 'sent by', message.author.name)
 
@@ -53,9 +52,6 @@ class Client(discord.Client):
                             await self.status_change(user.id)
                         elif reaction == '🔢':
                             self.curusers[user.id] = 'Grades', self.curusers[user.id][1], self.curusers[user.id][2]
-                            await self.status_change(user.id)
-                        elif reaction == '🌲':
-                            self.curusers[user.id] = 'Holidays', self.curusers[user.id][1], self.curusers[user.id][2]
                             await self.status_change(user.id)
                     elif self.curusers[user.id][0] == 'Schedule_menu':
                         if reaction == '🗓️':
@@ -199,42 +195,34 @@ class Client(discord.Client):
             await my_message.add_reaction('‼️')
             await my_message.add_reaction('📅')
             await my_message.add_reaction('⬅️')
-        elif self.curusers[user][0] == 'Holidays':
-            await channel.send('каникулы :D')
-            del (self.curusers[user])
         elif self.curusers[user][0] == 'Menu':
             id = int(user)
             name = str(await client.fetch_user(id))
             a = name.find('#')
             my_message = await channel.send(
                 'Greetings, ' + name[:a] + '. Choose an option below. :calendar_spiral: for Schedule, 🏡 for Homework, '
-                                           '🔢 for grades and 🌲 for holidays')
+                                           '🔢 for grades')
             self.curusers[user] = self.curusers[user][0], self.curusers[user][1], my_message
             await my_message.add_reaction('🗓️')
             await my_message.add_reaction('🏡')
             await my_message.add_reaction('🔢')
-            await my_message.add_reaction('🌲')
         else:
             channel.send('Something wrong happened, please contact @yab1ch on telegram')
             print('Problem for ' + str(user) + 'his state is ' + str(self.curusers[user][0]))
 
 
 async def main():
-    import aiohttp
     async with aiohttp.ClientSession() as session:
         api = API(session)
         token = await api.receive_token(login, password)
         print(token)
         student_id = await api.receive_student_id(token)
         print(student_id)
-        mark = await api.receive_marks(student_id, token)
-        lol = MarksResponse.parse_obj(mark)
-        print(lol)
 
 
 if __name__ == "__main__":
-    password = 'Doj12767'
-    login = '2024antoshin.ii'
-    # asyncio.run(main())
+    password = os.getenv('PASSWORD')
+    login = os.getenv('USERNAME')
+    asyncio.run(main())
     client = Client()
     client.run(os.getenv('TOKEN'))
