@@ -1,7 +1,14 @@
-import discord
+import asyncio
 import os
+from datetime import datetime
+import aiohttp
+import discord
 
-class Myclient(discord.Client):
+from information import variables
+from utils.api import API
+
+
+class Client(discord.Client):
     curusers = {}
     logged_on = [469107885536706560, 525400773375426590]
     message = ''
@@ -9,23 +16,24 @@ class Myclient(discord.Client):
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
+
     async def on_message(self, message):
         channelid = message.channel.id
         self.channel = client.get_channel(channelid)
         if message.content.startswith('/'):
-            if message.author.id not in self.logged_on:
-                await self.channel.send('You aren\'t logged on. Consider typing /login')
-            elif message.content == '/login':
-                await self.channel.send('https://letovo-analytics.web.app/')
+            if message.content == '/login' and message.author.id not in self.logged_on:
+                await self.channel.send('If you want to login, send your Analytics login, if not, send back a 0')
             elif message.content == '/menu':
+                if message.author.id not in self.logged_on:
+                    await self.channel.send('You aren\'t logged on. Consider typing /login')
                 my_message = await message.channel.send(
-                    'Greetings, ' + message.author.name + '. Choose an option below. :calendar_spiral: for Schedule, 🏡 for Homework, 🔢 for grades and 🌲 for holidays')
+                    'Greetings, ' + message.author.name + '. Choose an option below. :calendar_spiral: for Schedule, 🏡 for Homework, 🔢 for grades')
                 await my_message.add_reaction('🗓️')
                 await my_message.add_reaction('🏡')
                 await my_message.add_reaction('🔢')
-                await my_message.add_reaction('🌲')
                 self.curusers[message.author.id] = 'Menu', self.channel, my_message
             print('Last message in', message.channel, 'sent by', message.author.name)
+
     async def on_raw_reaction_add(self, payload):
         user = await self.fetch_user(payload.user_id)
         reaction = str(payload.emoji)
@@ -35,96 +43,99 @@ class Myclient(discord.Client):
                 if self.curusers[user.id][2].id == message:
                     if self.curusers[user.id][0] == "Menu":
                         if reaction == '🗓️':
-                            self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][
+                                2]
                             await self.status_change(user.id)
                         elif reaction == '🏡':
-                            self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][
+                                2]
                             await self.status_change(user.id)
                         elif reaction == '🔢':
                             self.curusers[user.id] = 'Grades', self.curusers[user.id][1], self.curusers[user.id][2]
                             await self.status_change(user.id)
-                        elif reaction == '🌲':
-                            self.curusers[user.id] = 'Holidays', self.curusers[user.id][1], self.curusers[user.id][2]
-                            await self.status_change(user.id)
                     elif self.curusers[user.id][0] == 'Schedule_menu':
                         if reaction == '🗓️':
-                            await self.curusers[user.id][1].send('Расписание на сегодня')
+                            await variables.schedule(datetime.today().weekday() + 1, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '🏡':
-                            await self.curusers[user.id][1].send('Расписание на неделю')
+                            await variables.schedule(0, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '🔢':
-                            self.curusers[user.id] = 'Schedule_choice', self.curusers[user.id][1], self.curusers[user.id][2]
+                            self.curusers[user.id] = 'Schedule_choice', self.curusers[user.id][1], \
+                                                     self.curusers[user.id][2]
                             await self.status_change(user.id)
                         elif reaction == '⬅️':
                             self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
                             await self.status_change(user.id)
                     elif self.curusers[user.id][0] == 'Schedule_choice':
                         if reaction == '1️⃣':
-                            await self.curusers[user.id][1].send('Понедельник расписание')
+                            await variables.schedule(1, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '2️⃣':
-                            await self.curusers[user.id][1].send('Вторник расписание')
+                            await variables.schedule(2, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '3️⃣':
-                            await self.curusers[user.id][1].send('Среда расписание')
+                            await variables.schedule(3, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '4️⃣':
-                            await self.curusers[user.id][1].send('Четверг расписание')
+                            await variables.schedule(4, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '5️⃣':
-                            await self.curusers[user.id][1].send('Пятница расписание')
+                            await variables.schedule(5, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '5️⃣':
-                            await self.curusers[user.id][1].send('Суббота расписание')
+                            await variables.schedule(6, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '⬅️':
-                            self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            self.curusers[user.id] = 'Schedule_menu', self.curusers[user.id][1], self.curusers[user.id][
+                                2]
                             await self.status_change(user.id)
                     elif self.curusers[user.id][0] == 'Homework_menu':
                         if reaction == '🏚️':
-                            await self.curusers[user.id][1].send('ДЗ на завтра')
+                            await variables.homework(datetime.today().weekday() + 2, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '🏘️':
-                            await self.curusers[user.id][1].send('ДЗ на неделю')
+                            await variables.homework(0, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '🔢':
-                            self.curusers[user.id] = 'Homework_choice', self.curusers[user.id][1], self.curusers[user.id][2]
+                            self.curusers[user.id] = 'Homework_choice', self.curusers[user.id][1], \
+                                                     self.curusers[user.id][2]
                             await self.status_change(user.id)
                         elif reaction == '⬅️':
                             self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
                             await self.status_change(user.id)
                     elif self.curusers[user.id][0] == 'Homework_choice':
                         if reaction == '1️⃣':
-                            await self.curusers[user.id][1].send('Понедельник ДЗ')
+                            await variables.homework(1, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '2️⃣':
-                            await self.curusers[user.id][1].send('Вторник ДЗ')
+                            await variables.homework(2, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '3️⃣':
-                            await self.curusers[user.id][1].send('Среда ДЗ')
+                            await variables.homework(3, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '4️⃣':
-                            await self.curusers[user.id][1].send('Четверг ДЗ')
+                            await variables.homework(4, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '5️⃣':
-                            await self.curusers[user.id][1].send('Пятница ДЗ')
+                            await variables.homework(5, self.curusers[user.id][1])
                             del (self.curusers[user.id])
-                        elif reaction == '5️⃣':
-                            await self.curusers[user.id][1].send('Суббота ДЗ')
+                        elif reaction == '6️⃣':
+                            await variables.homework(6, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '⬅️':
-                            self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][2]
+                            self.curusers[user.id] = 'Homework_menu', self.curusers[user.id][1], self.curusers[user.id][
+                                2]
                             await self.status_change(user.id)
                     elif self.curusers[user.id][0] == ' ':
                         if reaction == '🔄':
-                            await self.curusers[user.id][1].send('Все оценки')
+                            await variables.grades(0, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '‼️':
-                            await self.curusers[user.id][1].send('Оценки самматив')
+                            await variables.grades(1, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '📅':
-                            await self.curusers[user.id][1].send('Оценки недавно')
+                            await variables.grades(2, self.curusers[user.id][1])
                             del (self.curusers[user.id])
                         elif reaction == '⬅️':
                             self.curusers[user.id] = 'Menu', self.curusers[user.id][1], self.curusers[user.id][2]
@@ -177,33 +188,41 @@ class Myclient(discord.Client):
             await my_message.add_reaction('⬅️')
         elif self.curusers[user][0] == 'Grades':
             my_message = await channel.send(
-                'Choose an option below. 🔄 for  all marks, ‼️ for summative marks, 📅 for recent '
+                'Choose an option below. 🔄 for  all marks, ‼️ for summative marks, 📅 for final '
                 'marks, ⬅️ to go back')
             self.curusers[user] = self.curusers[user][0], self.curusers[user][1], my_message
             await my_message.add_reaction('🔄')
             await my_message.add_reaction('‼️')
             await my_message.add_reaction('📅')
             await my_message.add_reaction('⬅️')
-        elif self.curusers[user][0] == 'Holidays':
-            await channel.send('каникулы :D')
-            del (self.curusers[user])
         elif self.curusers[user][0] == 'Menu':
             id = int(user)
             name = str(await client.fetch_user(id))
             a = name.find('#')
             my_message = await channel.send(
                 'Greetings, ' + name[:a] + '. Choose an option below. :calendar_spiral: for Schedule, 🏡 for Homework, '
-                                       '🔢 for grades and 🌲 for holidays')
+                                           '🔢 for grades')
             self.curusers[user] = self.curusers[user][0], self.curusers[user][1], my_message
             await my_message.add_reaction('🗓️')
             await my_message.add_reaction('🏡')
             await my_message.add_reaction('🔢')
-            await my_message.add_reaction('🌲')
         else:
             channel.send('Something wrong happened, please contact @yab1ch on telegram')
             print('Problem for ' + str(user) + 'his state is ' + str(self.curusers[user][0]))
 
 
+async def main():
+    async with aiohttp.ClientSession() as session:
+        api = API(session)
+        token = await api.receive_token(login, password)
+        print(token)
+        student_id = await api.receive_student_id(token)
+        print(student_id)
+
+
 if __name__ == "__main__":
-    client = Myclient()
+    password = os.getenv('PASSWORD')
+    login = os.getenv('USERNAME')
+    asyncio.run(main())
+    client = Client()
     client.run(os.getenv('TOKEN'))
